@@ -1,103 +1,104 @@
-# main.py
+def create_board():
+    """Creates a 3x3 Tic-Tac-Toe board."""
+    return [[' ' for _ in range(3)] for _ in range(3)]
 
-import requests
-import json
+def display_board(board):
+    """Displays the current state of the board."""
+    print("\n-------------")
+    for row in board:
+        print("|", end="")
+        for cell in row:
+            print(f" {cell} |", end="")
+        print("\n-------------")
 
-# Dummy URL for fetching a list of numbers
-# Example data at this URL could be: [10, -5, 20, -15, 30]
-# Or: [-1, -2, -3] (to trigger the bug)
-# Or: [] (to trigger the bug)
-DATA_URL = "https://raw.githubusercontent.com/your_username/your_repo/main/dummy_data.json" # Replace with an actual URL hosting dummy data
+def is_valid_move(board, row, col):
+    """Checks if a move is valid (within bounds and cell is empty)."""
+    return 0 <= row < 3 and 0 <= col < 3 and board[row][col] == ' '
 
-def fetch_data(url):
-  """
-  Fetches a list of numbers from a given URL.
+def check_win(board, player):
+    """Checks if the given player has won."""
+    # Check rows
+    for row in board:
+        if all(cell == player for cell in row):
+            return True
 
-  Args:
-    url: The URL to fetch data from.
+    # Check columns
+    for col in range(3):
+        if all(board[row][col] == player for row in range(3)):
+            return True
 
-  Returns:
-    A list of numbers, or None if fetching fails.
-  """
-  try:
-    response = requests.get(url)
-    response.raise_for_status() # Raise an exception for bad status codes (4xx or 5xx)
-    data = response.json()
-    if isinstance(data, list):
-        # Attempt to convert list elements to numbers, handle errors
-        processed_data = []
-        for item in data:
+    # Check diagonals
+    if all(board[i][i] == player for i in range(3)):
+        return True
+    if all(board[i][2-i] == player for i in range(3)):
+        return True
+
+    return False
+
+def is_board_full(board):
+    """Checks if the board is full."""
+    for row in board:
+        if ' ' in row:
+            return False
+    return True
+
+# BUG: The game incorrectly declares a win in certain draw scenarios
+# specifically when the last move completes a diagonal and the board is full.
+# The win check should ideally happen *before* or in conjunction with the draw check
+# to correctly identify a draw when no win condition is met AND the board is full.
+# The current logic checks for a win, and *then* checks if the board is full for a draw,
+# which can lead to a win being detected on the final move of a full board that is a draw.
+
+
+def play_game():
+    """Runs the main game loop."""
+    board = create_board()
+    current_player = 'X'
+    game_over = False
+
+    print("Welcome to Tic-Tac-Toe!")
+    print("Enter your move as 'row col' (e.g., 1 2)")
+
+    while not game_over:
+        display_board(board)
+        print(f"Player {current_player}'s turn.")
+
+        valid_move = False
+        while not valid_move:
             try:
-                processed_data.append(float(item)) # Convert to float to handle integers and decimals
-            except (ValueError, TypeError):
-                print(f"Warning: Could not convert item '{item}' to a number. Skipping.")
-                continue
-        return processed_data
-    else:
-        print(f"Error: Fetched data is not a list. Type: {type(data)}")
-        return None
-  except requests.exceptions.RequestException as e:
-    print(f"Error fetching data from {url}: {e}")
-    return None
-  except json.JSONDecodeError:
-    print(f"Error decoding JSON from {url}")
-    return None
+                move_input = input("Enter your move (row col): ")
+                row, col = map(int, move_input.split())
+                # Adjusting for 0-based indexing
+                row -= 1
+                col -= 1
+
+                if is_valid_move(board, row, col):
+                    board[row][col] = current_player
+                    valid_move = True
+                else:
+                    print("Invalid move. Please try again.")
+            except ValueError:
+                print("Invalid input format. Please enter row and column as numbers (e.g., 1 2).")
+            except IndexError:
+                 print("Invalid input. Please enter row and column.")
 
 
-def process_data(data):
-  """
-  Filters out negative numbers from a list.
+        # Check for win AFTER the move
+        if check_win(board, current_player):
+            display_board(board)
+            print(f"\nCongratulations! Player {current_player} wins!")
+            game_over = True
+        # Check for draw ONLY if no win and board is full
+        # This is where the bug manifests in specific scenarios
+        elif is_board_full(): # BUG: This check is done after the win check
+             display_board(board)
+             print("\nIt's a draw!")
+             game_over = True
+        else:
+            # Switch player
+            current_player = 'O' if current_player == 'X' else 'X'
 
-  Args:
-    data: A list of numbers.
-
-  Returns:
-    A new list containing only non-negative numbers.
-    Returns an empty list if the input is None or not a list.
-  """
-  if not isinstance(data, list):
-      print("Warning: Input to process_data is not a list.")
-      return []
-
-  filtered_data = [num for num in data if num >= 0]
-  return filtered_data
-
-def calculate_sum(numbers):
-  """
-  Calculates the sum of a list of numbers.
-
-  Args:
-    numbers: A list of numbers.
-
-  Returns:
-    The sum of the numbers.
-    Returns None if the input is None or not a list.
-    # BUG: Returns None for an empty list instead of 0
-  """
-  if not isinstance(numbers, list):
-      print("Warning: Input to calculate_sum is not a list.")
-      return None
-
-  # BUG: This returns None if the list is empty, instead of 0
-  # A correct implementation would handle the empty list case explicitly
-  # For example: return sum(numbers) if numbers is not None else 0
-  return sum(numbers)
-
-
-def main():
-  print(f"Attempting to fetch data from: {DATA_URL}")
-  raw_data = fetch_data(DATA_URL)
-
-  if raw_data is not None:
-    print(f"Successfully fetched data: {raw_data}")
-    processed_data = process_data(raw_data)
-    print(f"Processed data (non-negative): {processed_data}")
-    total_sum = calculate_sum(processed_data)
-
-    print(f"The calculated sum of the processed data is: {total_sum}")
-  else:
-    print("Failed to fetch or process data.")
-
+    print("Game over.")
 
 if __name__ == "__main__":
-  main()
+    play_game()

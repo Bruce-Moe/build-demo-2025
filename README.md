@@ -1,12 +1,10 @@
 Build Demo 2025
-This is a sample project demonstrating a slightly more complex scenario with external dependencies and a data processing bug.
-
-The project fetches a list of numbers from a URL, processes the data, and calculates a sum.
+This is a simple command-line Tic-Tac-Toe game implemented in Python. It allows two players to play against each other on a 3x3 board.
 
 Files
 README.md: This file.
 
-main.py: The main Python script containing the data fetching and processing logic with a bug.
+main.py: The main Python script containing the game logic.
 
 requirements.txt: Lists project dependencies.
 
@@ -17,7 +15,7 @@ git clone <repository_url>
 
 Navigate to the project directory:
 
-cd sample-buggy-project
+cd build-demo-2025
 
 Install dependencies:
 
