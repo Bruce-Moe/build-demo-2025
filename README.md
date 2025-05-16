@@ -1,32 +1,53 @@
-Build Demo 2025
+# Build Demo 2025
+
 This is a simple command-line Tic-Tac-Toe game implemented in Python. It allows two players to play against each other on a 3x3 board.
 
-Files
-README.md: This file.
+## Files
 
-main.py: The main Python script containing the game logic.
+* `README.md`: This file.
 
-requirements.txt: Lists project dependencies.
+* `main.py`: The main Python script containing the game logic.
 
-Setup
-Clone the repository:
+* `requirements.txt`: Lists project dependencies.
 
-git clone <repository_url>
+## Setup
 
-Navigate to the project directory:
+1. Clone the repository:
 
-cd build-demo-2025
+   ```bash
+   git clone 
 
-Install dependencies:
 
-pip install -r requirements.txt
+   ```
 
-Usage
+2. Navigate to the project directory:
+
+   ```bash
+   cd Build-Demo-2025
+
+
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+
+
+   ```
+
+## Usage
+
 Run the main script:
 
+```bash
 python main.py
 
-(Note: The script is currently hardcoded to fetch from a specific dummy URL. In a real scenario, this might be configurable.)
 
-Contributing
+```
+
+*(Note: The script is currently hardcoded to fetch from a specific dummy URL. In a real scenario, this might be configurable.)*
+
+## Contributing
+
 Feel free to fork this repository, fix the bug, and submit a pull request!
