@@ -1,4 +1,4 @@
-# Python Async Worker Sample
+# Tic Tac Toe Game - Build Demo 2025
 
 This repository contains a simplified example of a common bug encountered in asynchronous programming, specifically related to state management and resource handling during error conditions. It serves as a demonstration of how such a bug might manifest and how it can be documented and fixed, similar to a real-world workflow using GitHub Issues and Pull Requests.
 
@@ -18,61 +18,50 @@ The goal of this project is to demonstrate:
 
 ## Files
 
-* `worker.py`: Contains the initial code with the bug.
-* `worker_fixed.py`: Contains the corrected code with the bug resolved.
+* `README.md`: This file.
+
+* `main.py`: The main Python script containing the game logic.
+
+* `requirements.txt`: Lists project dependencies.
 
 ## Setup
 
-This project requires Python 3.7 or higher for the `asyncio.run()` function. No external libraries are needed.
+1. Clone the repository:
 
-1.  Clone this repository (or copy the files):
-    ```bash
-    git clone <repository_url>
-    cd python-async-worker-bug-example # Replace with the actual directory name
-    ```
+   ```bash
+   git clone 
 
-## Running the Buggy Code (Observing the Bug)
 
-The buggy code in `worker.py` demonstrates the worker becoming unresponsive after a task failure.
+   ```
 
-1.  Run the buggy script:
-    ```bash
-    python worker.py
-    ```
+2. Navigate to the project directory:
 
-2.  Observe the output:
-    * You will see tasks starting and potentially some simulating failure (`Simulating failure...`).
-    * After the initial batch of tasks completes, the script attempts to run one more task (`task_F`).
-    * Due to the bug, the worker is stuck in an `_is_processing = True` state.
-    * The output for `task_F` will likely show: `Worker: Warning: Worker is already processing task ... Skipping task task_F.`
-    * The final worker state will show `_is_processing=True`, even though all initial tasks are done and the connection is released.
+   ```bash
+   cd Build-Demo-2025
 
-This demonstrates the worker becoming unresponsive to new tasks after an error.
 
-## Running the Fixed Code (Verifying the Fix)
+   ```
 
-The fixed code in `worker_fixed.py` resolves the state inconsistency bug.
+3. Install dependencies:
 
-1.  Run the fixed script:
-    ```bash
-    python worker_fixed.py
-    ```
+   ```bash
+   pip install -r requirements.txt
 
-2.  Observe the output:
-    * Similar to the buggy version, tasks will run, and some might fail.
-    * However, after the initial batch completes, the script attempts to run `task_F`.
-    * The fixed worker correctly resets its state after each task (in the `finally` block).
-    * `task_F` will now be processed as expected, acquiring the service connection again.
-    * The final worker state will show `_is_processing=False`, indicating it's ready for more tasks.
 
-## The Bug Explained
+   ```
 
-*(This section summarizes the bug as you would see it documented, potentially in a GitHub Issue).*
+## Usage
 
-**Summary:** The asynchronous worker fails to reset its internal `_is_processing` and `_active_task` state flags when a task encounters an error during processing by the simulated `ExternalService`.
+Run the main script:
 
-**Details:** The `process_task` method sets `_is_processing` to `True` at the start. If an exception occurs within the `try` block (e.g., the simulated `RuntimeError` from the service), the `except` block catches it, and the `finally` block executes to release the service connection. However, the crucial step of resetting `_is_processing` and `_active_task` back to their idle states (`False` and `None`) was missing in the error path. This left the worker in a perpetually "busy" state, preventing it from accepting any subsequent tasks, even though no processing was actively occurring.
+```bash
+python main.py
 
-**Corresponding GitHub Issue (Conceptual):**
 
-This bug could be reported in a GitHub issue like this one:
+```
+
+*(Note: The script is currently hardcoded to fetch from a specific dummy URL. In a real scenario, this might be configurable.)*
+
+## Contributing
+
+Feel free to fork this repository, fix the bug, and submit a pull request!
