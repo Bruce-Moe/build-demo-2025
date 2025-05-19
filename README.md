@@ -4,6 +4,9 @@ This repository contains a simplified example of a common bug encountered in asy
 
 **Disclaimer:** This code is a minimal, illustrative example and not intended for production use. The simulated external service and task processing are simplified to highlight the specific bug.
 
+## Repository
+https://github.com/Bruce-Moe/build-demo-2025
+
 ## Purpose
 
 The goal of this project is to demonstrate:
