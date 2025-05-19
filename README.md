@@ -1,20 +1,6 @@
 # Tic Tac Toe Game - Build Demo 2025
 
-This repository contains a simplified example of a common bug encountered in asynchronous programming, specifically related to state management and resource handling during error conditions. It serves as a demonstration of how such a bug might manifest and how it can be documented and fixed, similar to a real-world workflow using GitHub Issues and Pull Requests.
-
-**Disclaimer:** This code is a minimal, illustrative example and not intended for production use. The simulated external service and task processing are simplified to highlight the specific bug.
-
-## Repository
-https://github.com/Bruce-Moe/build-demo-2025
-
-## Purpose
-
-The goal of this project is to demonstrate:
-
-1.  A potential logical bug in an asynchronous Python application involving state inconsistency after an error.
-2.  How this bug can lead to unexpected behavior (a worker becoming unresponsive).
-3.  How such an issue might be reported in a platform like GitHub Issues.
-4.  How the fix addresses the root cause of the bug.
+This is a simple command-line Tic-Tac-Toe game implemented in Python. It allows two players to play against each other on a 3x3 board.
 
 ## Files
 
