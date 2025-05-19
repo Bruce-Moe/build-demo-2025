@@ -1,4 +1,4 @@
-# Python Async Worker Bug Example
+# Python Async Worker Sample
 
 This repository contains a simplified example of a common bug encountered in asynchronous programming, specifically related to state management and resource handling during error conditions. It serves as a demonstration of how such a bug might manifest and how it can be documented and fixed, similar to a real-world workflow using GitHub Issues and Pull Requests.
 
