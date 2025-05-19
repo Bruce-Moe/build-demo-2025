@@ -1,4 +1,4 @@
-# Build Demo 2025
+# Tic Tac Toe Game - Build Demo 2025
 
 This is a simple command-line Tic-Tac-Toe game implemented in Python. It allows two players to play against each other on a 3x3 board.
 
